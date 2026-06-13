@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Drishika Tiwari — DevOps & Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #181818;
+    --border: #242424;
+    --border2: #2e2e2e;
+    --text: #e8e8e8;
+    --muted: #888;
+    --faint: #444;
+    --blue: #3b82f6;
+    --blue-dim: #1d4ed8;
+    --blue-glow: rgba(59,130,246,0.12);
+    --red: #ef4444;
+    --red-dim: #991b1b;
+    --red-glow: rgba(239,68,68,0.1);
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--blue);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* sections */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* hero */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-inner { width: 100%; }
+
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--blue);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--blue);
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+
+  .name-accent { color: var(--blue); }
+
+  .hero-role {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    font-family: var(--mono);
+  }
+
+  .hero-role span { color: var(--red); }
+
+  .hero-desc {
+    max-width: 520px;
+    color: #aaa;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: var(--mono);
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .btn-primary:hover { background: var(--blue-dim); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border2);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  .hero-status {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 2rem;
+  }
+
+  /* container */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+
+  /* skills */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .skill-tag {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+
+  .skill-tag:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: var(--blue-glow);
+  }
+
+  .skill-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+
+  .skill-dot.red { background: var(--red); }
+
+  /* projects */
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .project-card {
+    background: var(--bg2);
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .project-card:last-child { border-bottom: none; }
+
+  .project-card:hover { background: var(--bg3); }
+
+  .project-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-name {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border2);
+    color: var(--faint);
+    white-space: nowrap;
+  }
+
+  .tag.blue {
+    border-color: rgba(59,130,246,0.3);
+    color: var(--blue);
+    background: var(--blue-glow);
+  }
+
+  .tag.red {
+    border-color: rgba(239,68,68,0.3);
+    color: var(--red);
+    background: var(--red-glow);
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .project-arrow {
+    color: var(--faint);
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .project-card:hover .project-arrow {
+    color: var(--blue);
+    transform: translateX(3px);
+  }
+
+  /* experience */
+  .exp-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--faint);
+    padding-top: 4px;
+  }
+
+  .exp-role {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .exp-company {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--blue);
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* certifications */
+  .cert-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cert-row:last-child { border-bottom: none; }
+
+  .cert-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--blue);
+    flex-shrink: 0;
+    letter-spacing: 0;
+  }
+
+  .cert-name {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .cert-issuer {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* contact */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: var(--blue-glow);
+  }
+
+  .contact-link svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .contact-link:hover svg { opacity: 1; }
+
+  /* footer */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--faint);
+  }
+
+  footer span { color: var(--red); }
+
+  /* scroll fade in */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 1rem; }
+    .container { padding: 3rem 1rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">drishika.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-label">available for opportunities</div>
+    <h1>Drishika <span class="name-accent">Tiwari</span></h1>
+    <p class="hero-role">DevOps, Data &amp; <span>AI Enthusiast</span></p>
+    <p class="hero-desc">
+      BTech CS student at Parul University specialising in Cloud Computing.
+      I build things, break them, automate them, and deploy them — preferably all in one day.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">→ view projects</a>
+      <a href="mailto:0903charutiwari@gmail.com" class="btn btn-outline">get in touch</a>
+    </div>
+    <div class="hero-status">
+      <div class="status-dot"></div>
+      DevOps Intern @ AbyM Technology · Vadodara, India
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ABOUT / SKILLS -->
+<section id="about">
+  <div class="container fade-in">
+    <div class="section-label">// skills</div>
+    <h2 class="section-title">What I work with</h2>
+    <div class="skills-grid">
+      <div class="skill-tag"><div class="skill-dot"></div>Python</div>
+      <div class="skill-tag"><div class="skill-dot"></div>Docker</div>
+      <div class="skill-tag"><div class="skill-dot"></div>AWS</div>
+      <div class="skill-tag"><div class="skill-dot"></div>Azure</div>
+      <div class="skill-tag"><div class="skill-dot"></div>GitHub Actions</div>
+      <div class="skill-tag"><div class="skill-dot"></div>Linux</div>
+      <div class="skill-tag"><div class="skill-dot"></div>Terraform</div>
+      <div class="skill-tag"><div class="skill-dot"></div>Bash</div>
+      <div class="skill-tag"><div class="skill-dot"></div>PostgreSQL</div>
+      <div class="skill-tag"><div class="skill-dot"></div>Nginx</div>
+      <div class="skill-tag"><div class="skill-dot red"></div>Azure DevOps</div>
+      <div class="skill-tag"><div class="skill-dot red"></div>Kubernetes</div>
+      <div class="skill-tag"><div class="skill-dot red"></div>FastAPI</div>
+      <div class="skill-tag"><div class="skill-dot red"></div>Streamlit</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container fade-in">
+    <div class="section-label">// projects</div>
+    <h2 class="section-title">Things I've built</h2>
+    <div class="projects-list">
+
+      <a href="https://github.com/drishikaa09/azure-pipeline-deployment" target="_blank" class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-name">azure-pipeline-deployment</div>
+            <div class="project-tags" style="margin-top:6px">
+              <span class="tag blue">Azure DevOps</span>
+              <span class="tag blue">CI/CD</span>
+              <span class="tag">Flask</span>
+              <span class="tag">Nginx</span>
+              <span class="tag">SSL</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </div>
+        <p class="project-desc">Flask app deployed to Azure VM with Gunicorn + Nginx, SSL via Certbot, custom DuckDNS domain, and full CI/CD through Azure DevOps pipelines.</p>
+      </a>
+
+      <a href="https://github.com/drishikaa09/india-tech-pulse" target="_blank" class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-name">india-tech-pulse</div>
+            <div class="project-tags" style="margin-top:6px">
+              <span class="tag blue">AWS S3</span>
+              <span class="tag blue">Streamlit</span>
+              <span class="tag">Python</span>
+              <span class="tag">VADER</span>
+              <span class="tag red">Live</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </div>
+        <p class="project-desc">Real-time tech news dashboard scraping HackerNews, running sentiment analysis, storing to AWS S3, and auto-refreshing via GitHub Actions cron.</p>
+      </a>
+
+      <a href="https://github.com/drishikaa09/cartwatch" target="_blank" class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-name">cartwatch</div>
+            <div class="project-tags" style="margin-top:6px">
+              <span class="tag blue">Kinesis</span>
+              <span class="tag blue">Lambda</span>
+              <span class="tag">Terraform</span>
+              <span class="tag">SNS</span>
+              <span class="tag">Kubernetes</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </div>
+        <p class="project-desc">Event-driven cart abandonment alert system — Python simulator pushes events to Kinesis, Lambda processes and triggers SNS email alerts, infra managed via Terraform.</p>
+      </a>
+
+      <a href="https://github.com/drishikaa09/cash-flow-analyzer" target="_blank" class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-name">cash-flow-analyzer</div>
+            <div class="project-tags" style="margin-top:6px">
+              <span class="tag blue">AWS ECS Fargate</span>
+              <span class="tag blue">ECR</span>
+              <span class="tag">Docker</span>
+              <span class="tag">S3</span>
+              <span class="tag">CloudWatch</span>
+            </div>
+          </div>
+          <div class="project-arrow">→</div>
+        </div>
+        <p class="project-desc">Dockerized Python app generating financial data via Faker, uploading to S3, deployed on AWS ECS Fargate with live ExchangeRate-API data, Secrets Manager for credentials, and GitHub Actions CI/CD.</p>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container fade-in">
+    <div class="section-label">// experience</div>
+    <h2 class="section-title">Where I've worked</h2>
+
+    <div class="exp-item">
+      <div class="exp-date">May 2026 — present</div>
+      <div>
+        <div class="exp-role">DevOps Intern</div>
+        <div class="exp-company">AbyM Technology · Remote</div>
+        <p class="exp-desc">Working on Azure DevOps pipelines, Linux server administration, deployment flows, SSL configuration, and CI/CD automation. Built and deployed a full production pipeline independently.</p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">2023 — present</div>
+      <div>
+        <div class="exp-role">BTech Computer Science — Cloud Computing</div>
+        <div class="exp-company">Parul University, Vadodara</div>
+        <p class="exp-desc">Specialising in cloud infrastructure and DevOps. Active member of the AWS Community Club. Expected graduation 2028.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 2rem;">
+      <div class="section-label" style="margin-bottom:1rem">// certifications</div>
+      <div class="cert-row">
+        <div class="cert-icon">AZ</div>
+        <div>
+          <div class="cert-name">Microsoft Azure Fundamentals</div>
+          <div class="cert-issuer">AZ-900 · Microsoft</div>
+        </div>
+      </div>
+      <div class="cert-row">
+        <div class="cert-icon">AWS</div>
+        <div>
+          <div class="cert-name">AWS Community Volunteer</div>
+          <div class="cert-issuer">AWS Community Day Vadodara</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container fade-in">
+    <div class="section-label">// contact</div>
+    <h2 class="section-title">Let's connect</h2>
+    <div class="contact-grid">
+      <a href="mailto:0903charutiwari@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l9 6 9-6M3 8v10a1 1 0 001 1h16a1 1 0 001-1V8M3 8a1 1 0 011-1h16a1 1 0 011 1"/></svg>
+        0903charutiwari@gmail.com
+      </a>
+      <a href="https://github.com/drishikaa09" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>
+        github.com/drishikaa09
+      </a>
+      <a href="https://linkedin.com/in/drishika-tiwari" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/drishika-tiwari
+      </a>
+      <a href="https://devops-pipeline.duckdns.org" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        devops-pipeline.duckdns.org
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  built &amp; deployed by <span>drishika tiwari</span> · ci/cd via github actions
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

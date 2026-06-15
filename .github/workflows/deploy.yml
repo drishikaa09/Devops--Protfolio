@@ -30,17 +30,20 @@ jobs:
       - name: Copy Project Files
         run: |
           scp -i ~/.ssh/id_rsa Dockerfile index.html \
-          ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/devops-portfolio/
+            ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/devops-portfolio/
 
       - name: Deploy Container
         run: |
           ssh -i ~/.ssh/id_rsa ubuntu@${{ secrets.SERVER_IP }} << 'EOF'
             cd /home/ubuntu/devops-portfolio
 
-            docker build -t portfolio .
+            sudo docker build -t portfolio .
 
-            docker stop portfolio || true
-            docker rm portfolio || true
+            sudo docker stop portfolio || true
+            sudo docker rm portfolio || true
 
-            docker run -d --name portfolio -p 80:80 portfolio
+            sudo docker run -d \
+              --name portfolio \
+              -p 80:80 \
+              portfolio
           EOF

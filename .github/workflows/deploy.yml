@@ -13,12 +13,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      - - name: Debug SERVER_IP
+  run: |
+    echo "Length: ${#SERVER_IP}"
+    echo "Value starts with: ${SERVER_IP:0:5}"
+  env:
+    SERVER_IP: ${{ secrets.SERVER_IP }}
 
       - name: Copy Project Files
         run: |
